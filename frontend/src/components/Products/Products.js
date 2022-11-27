@@ -1,42 +1,35 @@
-import axios from "../../hooks/axios.js";
+import axios from "axios";
 import "./Products.css";
 
 import { popularProducts } from "../../data";
 import Product from "./Product";
 import { useEffect, useState } from "react";
 
-function Products({ cat, filters, sort, limit, url }) {
+function Products({ cat, filters, sort, limit }) {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await axios.get(url);
+        const res = axios.get("http://localhost:3001/api/v1/products/");
         setProducts(res.data);
+        console.log("Products: " + products);
       } catch (err) {
         console.log(err);
       }
     };
     getProducts();
-  }, [url]);
+  });
 
   return (
-    <div
-      className="product-container"
-      //! Trường hợp getProduct By id
-      style={{ justifyContent: !Array.isArray(products) && "center" }}
-    >
-      {products && Array.isArray(products) ? (
-        //! Trường hợp getAllProducts
-        products
+    <div className="product-container">
+      {popularProducts &&
+        popularProducts
           .slice(0, limit)
           .map((product) => (
-            <Product product={product} key={product._id}></Product>
-          ))
-      ) : (
-        //! Trường hợp getProduct By id
-        <Product product={products} key={products._id}></Product>
-      )}
+            <Product product={product} key={product.id}></Product>
+          ))}
     </div>
   );
 }

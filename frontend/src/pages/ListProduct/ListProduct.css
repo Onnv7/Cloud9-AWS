@@ -1,0 +1,12 @@
+.btn-link{
+    background: black;
+    text-decoration: none;
+    color: white;
+    margin: 0 20px;
+}
+.btn-link:hover{
+    color: black;
+}
+.txt-center{
+    text-align: center;
+}

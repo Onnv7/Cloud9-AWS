@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import "./Products.css";
 
 function Product({ product }) {
@@ -6,21 +5,19 @@ function Product({ product }) {
     <div style={{ textAlign: "center" }}>
       <div className="product">
         <div className="circle" />
-        <img className="img" src={product.imgPath[0]} alt="product" />
+        <img className="img" src={product.img} alt="product" />
         <div className="info">
           <div className="icon">
             <i class="fa-solid fa-cart-shopping"></i>
           </div>
           <div className="icon">
-            <Link to={`/product/${product._id}`}>
-              <i class="fa-solid fa-magnifying-glass"></i>
-            </Link>
+            <i class="fa-solid fa-magnifying-glass"></i>
           </div>
         </div>
       </div>
       <div className="detail">
-        <h5>{product.name}</h5>
-        <p>${product.price}</p>
+        <h5>Floral Kirby</h5>
+        <p>$329.10</p>
       </div>
     </div>
   );
