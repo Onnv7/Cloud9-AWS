@@ -10,16 +10,19 @@ const userSchema = new mongoose.Schema(
       minLength: [5, "A user name must have more or equal than 5 characters"],
     },
     img: {
-      coverImage: {
-        type: Buffer,
-        default: ""
-        //required: true
+      type: {
+        coverImage: {
+          type: Buffer,
+          default: "",
+          //required: true
+        },
+        coverImageType: {
+          type: String,
+          default: "",
+          //required: true
+        },
       },
-      coverImageType: {
-        type: String,
-        default: ""
-        //required: true
-      },
+      default: null,
     },
     avatar: {
       type: String,
@@ -29,13 +32,10 @@ const userSchema = new mongoose.Schema(
       //required: [true, "User must have a phone number"],
       //unique: true,
     },
-    address: [String],
-    // username: {
-    //   type: String,
-    //   required: true,
-    //   minLength: [6, "A user name must have more or equal than 6 characters"],
-    //   unique: true,
-    // },
+    address: {
+      type: String,
+      default: "%Phường Phúc Xá%Quận Ba Đình%Thành Phố Hà Nội",
+    },
     email: {
       type: String,
       //required: [true, "User must have a email"],
@@ -53,19 +53,21 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    active: {
-      type: Boolean,
-      default: true,
-      select: false,
-    },
   },
   { timestamps: true }
 );
-userSchema.virtual('coverImagePath').get(function () {
+userSchema.virtual("coverImagePath").get(function () {
   let rs;
-  if (this.img.coverImage != null && this.img.coverImageType != null) {
-    rs = `data:${this.img.coverImageType};charset=utf-8;base64,${this.img.coverImage.toString('base64')}`
+  // NOTE: img luon o truoc, xet tu ben ngoai vao trong
+  if (
+    this.img != null &&
+    this.img.coverImage != null &&
+    this.img.coverImageType != null
+  ) {
+    rs = `data:${
+      this.img.coverImageType
+    };charset=utf-8;base64,${this.img.coverImage.toString("base64")}`;
   }
   return rs;
-})
+});
 export default mongoose.model("User", userSchema);

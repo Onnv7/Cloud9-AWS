@@ -6,11 +6,12 @@ import usersRoute from "./routes/users.js";
 import productsRoute from "./routes/products.js";
 import checkoutRoute from "./routes/checkout.js";
 import categoriesRoute from "./routes/categories.js";
+import searchRoute from "./routes/search.js";
 import reviewRoute from "./routes/reviews.js";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import cookieSession from "cookie-session";
-import authGG from "./routes/authGG.js"
+import authGG from "./routes/authGG.js";
 import setUpGG from "./passport.js";
 import passport from "passport";
 import { urlencoded, json } from "express";
@@ -23,8 +24,8 @@ dotenv.config();
 const connect = async () => {
   try {
     // node > 17 => 127.0.0.1 else localhost
-    await mongoose.connect("mongodb://127.0.0.1:27017/CNTT"); //process.env.MONGO //mongodb://localhost:27017/web-ec
-    // await mongoose.connect(process.env.MONGO); //process.env.MONGO //mongodb://localhost:27017/web-ec
+    // await mongoose.connect("mongodb://127.0.0.1:27017/CNTT"); //process.env.MONGO //mongodb://localhost:27017/web-ec
+    mongoose.connect(process.env.MONGO); //process.env.MONGO //mongodb://localhost:27017/web-ec
     console.log("Connected to mongoDB.");
   } catch (error) {
     throw error;
@@ -60,13 +61,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    // origin: "http://localhost:3000",
+    origin: true,
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
 );
 // ====================================================
-
 
 app.use("/auth", authGG);
 app.use("/backend/auth", authRoute);
@@ -75,6 +76,7 @@ app.use("/backend/products", productsRoute);
 app.use("/backend/checkouts", checkoutRoute);
 app.use("/backend/reviews", reviewRoute);
 app.use("/backend/categories", categoriesRoute);
+app.use("/backend/search", searchRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
