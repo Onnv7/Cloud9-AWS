@@ -32,8 +32,8 @@ const DBCategory = () => {
       await axios.delete(`/categories/${id}`);
       toast.success("Delete product successfully");
       setRefresh(!refresh);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
   };
 
