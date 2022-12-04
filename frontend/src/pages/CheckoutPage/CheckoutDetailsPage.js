@@ -7,6 +7,7 @@ import axios from "./../../hooks/axios";
 import { default as axiosOriginal } from "axios";
 import "./CheckoutPage.css";
 import { AuthContext } from "../../context/AuthContext";
+import { Helmet } from "react-helmet-async";
 function CheckoutDetailsPage() {
   const { id } = useParams();
   const [checkout, setCheckout] = useState();
@@ -23,6 +24,9 @@ function CheckoutDetailsPage() {
   }, [id]);
   return (
     <div className="checkout-container">
+      <Helmet>
+        <title>Checkout Details</title>
+      </Helmet>
       <div className="shop-header">
         <div className="image-container">
           <img
@@ -34,8 +38,10 @@ function CheckoutDetailsPage() {
         <div className="info-container">
           <h1 className="title">Checkout Details</h1>
           <p className="desc">
-            Hath after appear tree great fruitful green dominion moveth sixth
-            abundantly image that midst of god day multiply you’ll which
+            ADClothing is clothing designed to make everyone's life better. It
+            is simple, high-quality, everyday clothing with a practical sense of
+            beauty-ingenious in detail, thought through with life's needs in
+            mind, and always evolving.
           </p>
         </div>
       </div>
