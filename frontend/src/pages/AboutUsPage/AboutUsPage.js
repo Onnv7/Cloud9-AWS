@@ -11,6 +11,25 @@ function AboutUsPage() {
       <div className="aboutus-card">
         <img
           className="aboutus-dev-avatar"
+          src="assets/images/avatar-nmd-20110461.jpg"
+          alt="John"
+        />
+        <h1>Nguyen Minh Duc</h1>
+        <h2 className="aboutus-code">20110461</h2>
+        <p className="aboutus-desc">
+          HCMC University of Technology and Education
+        </p>
+        <p>
+          <a href="https://www.facebook.com/mingduc2k2">
+            <Button variant="dark" className="aboutus-btn-contact">
+              Contact
+            </Button>
+          </a>
+        </p>
+      </div>
+      <div className="aboutus-card">
+        <img
+          className="aboutus-dev-avatar"
           src="assets/images/avatar-nva-20110434.jpg"
           alt="John"
         />
@@ -27,19 +46,20 @@ function AboutUsPage() {
           </a>
         </p>
       </div>
+
       <div className="aboutus-card">
         <img
           className="aboutus-dev-avatar"
-          src="assets/images/avatar-nmd-20110461.jpg"
+          src="assets/images/avatar-ttk-20110505.jpg"
           alt="John"
         />
-        <h1>Nguyen Minh Duc</h1>
-        <h2 className="aboutus-code">20110461</h2>
+        <h1>Tran Tan Khoa</h1>
+        <h2 className="aboutus-code">20110505</h2>
         <p className="aboutus-desc">
           HCMC University of Technology and Education
         </p>
         <p>
-          <a href="https://www.facebook.com/mingduc2k2">
+          <a href="https://www.facebook.com/jintran2802">
             <Button variant="dark" className="aboutus-btn-contact">
               Contact
             </Button>
