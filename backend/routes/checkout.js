@@ -1,9 +1,21 @@
 import express from "express";
 
 import { verifyBuyer, verifyUser, verifyAdmin } from "../utils/verifyToken.js";
-import { createCheckout, selectAllCheckoutByUserId, updateCheckout, deleteCheckout, selectCheckout } from "../controllers/checkoutController.js";
+import {
+  createCheckout,
+  selectAllCheckoutByUserId,
+  updateCheckout,
+  deleteCheckout,
+  selectCheckout,
+  selectAllCheckouts, revenue
+} from "../controllers/checkoutController.js";
 const router = express.Router();
 
+// select all checkout
+router.get("/", selectAllCheckouts);
+
+// select all checkout
+router.get("/revenue/:startDate/:endDate", revenue);
 
 // create a new checkout
 router.post("/", createCheckout);

@@ -1,17 +1,33 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
-
+import { getImg } from "../utils/saveFile.js"
+import { getUrlImageObj } from "../utils/getUrlImage.js";
 
 // update user
 export const updateUser = async (req, res, next) => {
   try {
-    const body = { ...req.body };
+    let image = null
+    let body;
+    // nếu có ảnh
+    if (req.body.img !== null) {
+      image = getImg(req.body.img);
+      body = { ...req.body, img: image };
+    }
+    else {
+      body = { ...req.body }
+    }
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       { $set: body },
       { new: true }
     );
-    res.status(200).json(updatedUser);
+    const { password, img, ...otherDetails } = updatedUser._doc;
+    let imgPath;
+    if (img === null)
+      imgPath = otherDetails.avatar;
+    else
+      imgPath = getUrlImageObj(img);
+    res.status(200).json({ ...otherDetails, imgPath: imgPath });
   } catch (err) {
     next(err);
   }
@@ -23,8 +39,8 @@ export const updateUserPassword = async (req, res, next) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
     const body = { ...req.body, password: hash };
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
+    const updatedUser = await User.findOneAndUpdate(
+      { email: req.params.email },
       { $set: body },
       { new: true }
     );
@@ -48,6 +64,16 @@ export const deleteUser = async (req, res, next) => {
 export const selectUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
+    res.status(200).json(user);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// select a user by user id
+export const selectUserByEmail = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ email: req.params.email });
     res.status(200).json(user);
   } catch (err) {
     next(err);
