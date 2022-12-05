@@ -44,12 +44,13 @@ function Footer() {
           </li>
           <li className={"contact-item"}>
             <i class="fa-solid fa-phone"></i>
-            <span>0339930201 || 0334901237</span>
+            <span>0339930201 || 0334901237 || 0344387378</span>
           </li>
           <li className={"contact-item"}>
             <i class="fa-solid fa-envelope"></i>
             <span>
               20110461@student.hcmute.edu.vn || 20110434@student.hcmute.edu.vn
+              || 20110505@student.hcmute.edu.vn
             </span>
           </li>
         </ul>
