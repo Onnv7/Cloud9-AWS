@@ -1,7 +1,6 @@
 # Đề tài:Tìm hiểu và viết ứng dụng minh họa Cloud9-AWS
 
 ## I. Thông tin nhóm 13:
-
 - Nguyễn Văn An 20110434
 - Nguyễn Minh Đức 20110461
 - Trần Tấn Khoa 20110505
