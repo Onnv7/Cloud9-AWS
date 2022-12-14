@@ -33,11 +33,11 @@ const connect = async () => {
 };
 
 mongoose.connection.on("disconnected", () => {
-  console.log("mongoDB disconnected!");
+  // console.log("mongoDB disconnected!");
 });
 
 mongoose.connection.on("connected", () => {
-  console.log("mongoDB connected!");
+  // console.log("mongoDB connected!");
 });
 
 // middlewares
@@ -90,7 +90,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(8800, () => {
-  connect();
-  console.log("Connected to backend");
-});
+const PORT = 8800
+const HOST = '0.0.0.0'
+app.listen(PORT, HOST)
+connect()
+console.log(`Connected to backend http://${HOST}:${PORT}`);
