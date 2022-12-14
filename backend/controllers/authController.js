@@ -17,6 +17,17 @@ AWS.config.update(awsConfig)
 let docClient = new AWS.DynamoDB.DocumentClient();
 export const sendCodeVerify = async (req, res, next) => {
   try {
+    const code = String(await generateCode(6));
+    await sendEmail(req.body.email, "Your code", code);
+    res.status(200).json({ code });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// create a new user
+export const register = async (req, res, next) => {
+  try {
     const id = uuidv4();
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
@@ -41,26 +52,6 @@ export const sendCodeVerify = async (req, res, next) => {
         res.status(200).json("Created")
       }
     })
-  } catch (error) {
-    next(error);
-  }
-};
-
-// create a new user
-export const register = async (req, res, next) => {
-  try {
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(req.body.password, salt);
-
-    const image = req.body.img;
-
-    const newUser = new User({
-      ...req.body,
-      password: hash,
-    });
-    await saveFileObj(newUser, image);
-    await newUser.save();
-    res.status(200).send("User has been created.");
   } catch (err) {
     next(err);
   }
@@ -91,7 +82,6 @@ export const login = async (req, res, next) => {
         if (!user) return next(createError(404, "User not found!"));
 
 
-        // compare password in mongoose vs frontend
         const isPasswordCorrect = bcrypt.compare(
           req.body.password,
           user.password
@@ -103,7 +93,6 @@ export const login = async (req, res, next) => {
           });
           return;
         }
-        //return next(createError(400, "Wrong password or email!"));
 
         // create a new token for backend
         const token = jwt.sign(
