@@ -2,7 +2,14 @@ import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import { getImg } from "../utils/saveFile.js"
 import { getUrlImageObj } from "../utils/getUrlImage.js";
+import AWS from "aws-sdk"
+let awsConfig = {
+  "region": "us-east-1"
+}
 
+AWS.config.update(awsConfig)
+
+let docClient = new AWS.DynamoDB.DocumentClient();
 // update user
 export const updateUser = async (req, res, next) => {
   try {
@@ -73,8 +80,31 @@ export const selectUser = async (req, res, next) => {
 // select a user by user id
 export const selectUserByEmail = async (req, res, next) => {
   try {
-    const user = await User.findOne({ email: req.params.email });
-    res.status(200).json(user);
+    var user;
+    var params = {
+      TableName: "users",
+      FilterExpression: "#email= :email",
+
+      ExpressionAttributeNames: {
+        "#email": "email"
+      },
+      ExpressionAttributeValues: {
+        ":email": req.params.email
+      },
+    }
+    console.log(req.params.email)
+    await docClient.scan(params, function (err, data) {
+      if (err) {
+        //console.log("ERROR", JSON.stringify(err, null, 2));
+        res.status(200).json(null)
+      }
+      else {
+        user = data.Items[0]
+        if (user !== undefined)
+          res.status(200).json({ email: user.email });
+        else res.status(200).json(null)
+      }
+    })
   } catch (err) {
     next(err);
   }
