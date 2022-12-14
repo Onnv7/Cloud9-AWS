@@ -1,5 +1,12 @@
 import Checkout from "../models/checkoutModel.js";
+import { v4 as uuidv4 } from 'uuid';
+let awsConfig = {
+  "region": "us-east-1"
+}
 
+AWS.config.update(awsConfig)
+
+let docClient = new AWS.DynamoDB.DocumentClient();
 export const selectAllCheckouts = async (req, res, next) => {
   try {
     const checkouts = await Checkout.find({});
@@ -54,10 +61,27 @@ export const selectAllCheckoutByUserId = async (req, res, next) => {
 // create a new checkout
 export const createCheckout = async (req, res, next) => {
   try {
-    const body = { ...req.body };
-    const checkout = new Checkout(body);
-    await checkout.save();
-    res.status(200).json("Checkout has been created.");
+    const input = {
+      "id": uuidv4(),
+      ...req.body
+    }
+    var params = {
+      TableName: "checkouts",
+      Item: input
+    }
+    docClient.put(params, function (err, data) {
+      if (err) {
+        console.log("ERROR", JSON.stringify(err, null, 2));
+      }
+      else {
+        res.status(200).json("Created")
+        //console.log("CREATE")
+      }
+    })
+    // const body = { ...req.body };
+    // const checkout = new Checkout(body);
+    // await checkout.save();
+    // res.status(200).json("Checkout has been created.");
   } catch (error) {
     next(error);
   }
