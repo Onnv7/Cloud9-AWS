@@ -26,7 +26,7 @@ const connect = async () => {
     // node > 17 => 127.0.0.1 else localhost
     // await mongoose.connect("mongodb://127.0.0.1:27017/CNTT"); //process.env.MONGO //mongodb://localhost:27017/web-ec
     mongoose.connect(process.env.MONGO); //process.env.MONGO //mongodb://localhost:27017/web-ec
-    console.log("Connected to mongoDB.");
+    // console.log("Connected to mongoDB.");
   } catch (error) {
     throw error;
   }
