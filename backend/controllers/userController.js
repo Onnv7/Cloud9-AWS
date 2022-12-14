@@ -2,7 +2,14 @@ import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import { getImg } from "../utils/saveFile.js"
 import { getUrlImageObj } from "../utils/getUrlImage.js";
+import AWS from "aws-sdk"
+let awsConfig = {
+  "region": "us-east-1"
+}
 
+AWS.config.update(awsConfig)
+
+let docClient = new AWS.DynamoDB.DocumentClient();
 // update user
 export const updateUser = async (req, res, next) => {
   try {
